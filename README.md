@@ -1,4 +1,5 @@
 # minecraft_tmux
+![ss](./ss.png)
 ## What's this?
 * Something to ease the administration of minecraft servers using tmux.
 1. Feel free to edit and use it as you like.
