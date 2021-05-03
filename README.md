@@ -1,4 +1,10 @@
 # minecraft_tmux
+## What's this?
+* Something to ease the administration of minecraft servers using tmux.
+1. Feel free to edit and use it as you like.
+2. Feel free to modify it, but I'd appreciate it if you'd fork it :)
+3. If you have any problems or want to improve it, send meissues!
+
 ## Recommend app
 * [tmux](https://wiki.archlinux.org/title/tmux) - All used
 * [tmuxp](https://wiki.archlinux.org/title/tmuxp) - Use Manage.yaml
