@@ -7,7 +7,7 @@ MC_HOME="/home/mc/Servers/Lobby"
 MC_JAR_FILE="server.jar"
 MC_MIN_RAM="1024M"
 MC_MAX_RAM="4196M"
-MC_JVM_PARAMETERS="-server -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UseLargePagesInMetaspace -XX:LargePageSizeInBytes=2m -Dio.netty.leakDetection.level=DISABLED"
+MC_JVM_PARAMETERS="-server -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UseLargePagesInMetaspace -XX:LargePageSizeInBytes=2m -Dio.netty.leakDetection.level=DISABLED -Djdk.net.URLClassPath.disableClassPathURLCheck=true"
 
 is_server_running() {
     /usr/bin/tmux -L ${TMUX_SOCKET} has-session -t ${TMUX_SESSION} > /dev/null 2>&1
