@@ -5,8 +5,9 @@
 
 ### Service.sh
 #### Settings
-```
-```
+* Set the variables in each file and start it up.
+* **Also note that the names of the sockets must be the same!**
+
 #### Commands
 * `./Service.sh start` - Starting server in tmux session.
 * `./Service.sh stop` - Stopping server in tmux session at 60s.
@@ -22,4 +23,4 @@
 * `./BungeeCord.sh attach` - Attach BungeeCord in tmux session.
 
 ### Manage.yaml
-* tmuxp load ./Manage.yaml
+* `tmuxp load ./Manage.yaml`
