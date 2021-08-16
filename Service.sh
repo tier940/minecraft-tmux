@@ -1,13 +1,14 @@
 #!/bin/bash
 # Minecraft service that starts the server in a tmux session.
 
+JAVA_PATH="/usr/lib/jvm/java-8-j9/bin/java"
 TMUX_SOCKET="minecraft"
 TMUX_SESSION="Lobby"
 MC_HOME="/home/mc/Servers/Lobby"
-MC_JAR_FILE="server.jar"
-MC_MIN_RAM="1024M"
-MC_MAX_RAM="4196M"
-MC_JVM_PARAMETERS="-server -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UseLargePagesInMetaspace -XX:LargePageSizeInBytes=2m -Dio.netty.leakDetection.level=DISABLED -Djdk.net.URLClassPath.disableClassPathURLCheck=true"
+MC_JAR_FILE="forge-1.12.2-14.23.5.2854.jar"
+MC_MIN_RAM="2G"
+MC_MAX_RAM="8G"
+MC_JVM_PARAMETERS="-XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=512M -server -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:+OptimizeStringConcat -XX:+UseTLAB -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -XX:+UseLargePagesInMetaspace -XX:LargePageSizeInBytes=2m -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Dio.netty.leakDetection.level=DISABLED -Djdk.net.URLClassPath.disableClassPathURLCheck=true"
 
 is_server_running() {
     /usr/bin/tmux -L ${TMUX_SOCKET} has-session -t ${TMUX_SESSION} > /dev/null 2>&1
@@ -26,7 +27,7 @@ start_server() {
         return 1
     else
         echo "Starting minecraft server in tmux session"
-        /usr/bin/tmux -L ${TMUX_SOCKET} new-session -c ${MC_HOME} -s ${TMUX_SESSION} -d /usr/bin/java -Xms${MC_MIN_RAM} -Xmx${MC_MAX_RAM} ${MC_JVM_PARAMETERS} -jar ${MC_HOME}/$MC_JAR_FILE
+        /usr/bin/tmux -L ${TMUX_SOCKET} new-session -c ${MC_HOME} -s ${TMUX_SESSION} -d ${JAVA_PATH} -Xms${MC_MIN_RAM} -Xmx${MC_MAX_RAM} ${MC_JVM_PARAMETERS} -jar ${MC_HOME}/$MC_JAR_FILE
         return ${?}
     fi
 }
@@ -42,12 +43,14 @@ stop_server() {
         for i in {60..1}; do
             mc_command "title @a subtitle {\"text\":\"in ${i} seconds\",\"color\":\"gray\"}"
             mc_command "title @a title {\"text\":\"Shutting down\",\"color\":\"dark_red\"}"
+            echo "Server stop in ${i} seconds"
             sleep 1
         done
 
         # Issue shutdown
         echo "Save all"
         mc_command "save-all"
+        sleep 0
         echo "Stopping server"
         mc_command "stop"
         if [[ ${?} -ne 0 ]]; then
